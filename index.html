@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eFootball Style Points Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #050a14; font-family: 'Rajdhani', sans-serif; }
+        .deep-blue-bg { background: linear-gradient(135deg, #0f172a 0%, #020617 100%); }
+        .modern-card {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            transition: all 0.3s ease;
+        }
+        .modern-card:hover { border-color: rgba(251, 191, 36, 0.6); box-shadow: 0 0 20px rgba(251, 191, 36, 0.1); }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="w-full h-screen">
+
+    <div class="w-full h-full bg-[#050a14] flex flex-col">
+        
+        <!-- Header -->
+        <div id="header-area" class="deep-blue-bg p-8 pb-10 rounded-b-[2.5rem] flex-shrink-0 shadow-lg shadow-yellow-500/10 border-b border-yellow-500/20">
+            <h1 id="page-title" class="text-3xl font-bold text-amber-400 mb-2 uppercase tracking-widest">THE ONE COIN STORE</h1>
+            <p id="sub-title" class="text-yellow-100/60 text-sm mb-6 uppercase tracking-wider">Exchange to Coin</p>
+            
+            <div id="search-box" class="relative w-full">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-yellow-500/50"></i>
+                <input type="text" id="search-bar" placeholder="SEARCH PLAYER..." 
+                       class="w-full bg-white/5 text-white rounded-xl py-3 pl-12 pr-4 placeholder-yellow-500/30 outline-none border border-yellow-500/20 focus:border-yellow-400 transition-all uppercase tracking-widest">
+            </div>
+        </div>
+
+        <!-- Dynamic Content -->
+        <div id="content-area" class="p-6 space-y-4 overflow-y-auto flex-1 scrollbar-hide">
+        </div>
+
+        <!-- Navigation Footer -->
+        <div class="bg-[#050a14] border-t border-yellow-500/10 p-4 flex justify-around items-center">
+            <button onclick="renderPage('leaderboard')" class="flex flex-col items-center text-amber-400 hover:text-amber-300 transition" id="btn-leaderboard">
+                <i class="fa-solid fa-trophy text-xl"></i>
+                <span class="text-[10px] mt-1 font-bold uppercase tracking-widest">WALLET</span>
+            </button>
+            <button onclick="renderPage('wallet')" class="flex flex-col items-center text-gray-500 hover:text-amber-400 transition" id="btn-wallet">
+                <i class="fa-solid fa-wallet text-xl"></i>
+                <span class="text-[10px] mt-1 font-bold uppercase tracking-widest">EXCHANGE</span>
+            </button>
+            <button onclick="renderPage('rules')" class="flex flex-col items-center text-gray-500 hover:text-amber-400 transition" id="btn-rules">
+                <i class="fa-solid fa-circle-info text-xl"></i>
+                <span class="text-[10px] mt-1 font-bold uppercase tracking-widest">RULES</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const players = [
+            { name: "Owen", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Kyaw" },
+            { name: "Min Nyi", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Aung" },
+            { name: "Kaung Kaung", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mg" },
+            { name: "Arkar", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "Mon Naung", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hla" },
+            { name: "PSTW", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "Kevin", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "Min Xtet Txurâ", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "Μæï Măī", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "Cry", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "❈ 𝐀𝐬𝐡𝐞𝐫 𝐎𝐟𝐟𝐢𝐜𝐢𝐚𝐥 ☾", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "San Tun Aung", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+
+        ];
+
+        const walletItems = [
+            { pts: "500 PTS", coin: "300 COINS", link: "https://t.me/Profit_Zio" },
+            { pts: "800 PTS", coin: "550 COINS", link: "https://t.me/Profit_Zio" },
+            { pts: "1250 PTS", coin: "750 COINS", link: "https://t.me/Profit_Zio" },
+            { pts: "1600 PTS", coin: "1040 COINS", link: "https://t.me/Profit_Zio" }
+        ];
+
+        // Search functionality
+        document.getElementById('search-bar').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredPlayers = players.filter(p => p.name.toLowerCase().includes(searchTerm));
+            renderLeaderboard(filteredPlayers);
+        });
+
+        function renderLeaderboard(playerList) {
+            const container = document.getElementById('content-area');
+            container.innerHTML = "";
+            playerList.forEach(p => {
+                container.innerHTML += `
+                    <div class="flex items-center justify-between bg-[#0f172a] p-4 rounded-xl border border-yellow-500/10">
+                        <div class="flex items-center gap-4">
+                            <img src="${p.img}" class="w-12 h-12 rounded-lg bg-yellow-500/10 p-1">
+                            <h3 class="text-white font-semibold text-lg uppercase tracking-wider">${p.name}</h3>
+                        </div>
+                        <span class="text-amber-400 font-bold text-xl">${p.points}</span>
+                    </div>
+                `;
+            });
+        }
+
+        function renderPage(type) {
+            const container = document.getElementById('content-area');
+            const title = document.getElementById('page-title');
+            const subTitle = document.getElementById('sub-title');
+            const searchBox = document.getElementById('search-box');
+            
+            container.innerHTML = "";
+            document.getElementById('search-bar').value = ""; // Clear search when switching pages
+            
+            // Reset button colors
+            document.getElementById('btn-leaderboard').className = "flex flex-col items-center text-gray-500 hover:text-amber-400";
+            document.getElementById('btn-wallet').className = "flex flex-col items-center text-gray-500 hover:text-amber-400";
+            document.getElementById('btn-rules').className = "flex flex-col items-center text-gray-500 hover:text-amber-400";
+            
+            if (type === 'leaderboard') {
+                title.innerText = "THE ONE COIN STORE";
+                subTitle.innerText = "Exchange to Coin";
+                searchBox.style.display = 'block';
+                document.getElementById('btn-leaderboard').className = "flex flex-col items-center text-amber-400";
+                renderLeaderboard(players);
+            } else if (type === 'wallet') {
+                title.innerText = "WALLET";
+                subTitle.innerText = "Exchange to Coin";
+                searchBox.style.display = 'none';
+                document.getElementById('btn-wallet').className = "flex flex-col items-center text-amber-400";
+                
+                walletItems.forEach(item => {
+                    container.innerHTML += `
+                        <div class="modern-card p-6 flex flex-col gap-4">
+                            <div class="flex justify-between items-center">
+                                <div class="flex flex-col">
+                                    <span class="text-amber-400/60 text-xs font-bold uppercase tracking-widest">Points</span>
+                                    <span class="text-white font-bold text-2xl tracking-widest">${item.pts}</span>
+                                </div>
+                                <div class="bg-yellow-500/10 px-3 py-1 rounded-full border border-yellow-500/20 text-yellow-500 text-xs font-bold">EXCHANGE</div>
+                            </div>
+                            <div class="h-[1px] bg-white/5"></div>
+                            <div class="flex justify-between items-center">
+                                <div class="text-amber-400 font-bold text-xl tracking-widest flex items-center gap-2">
+                                    <i class="fa-solid fa-coins text-lg"></i> ${item.coin}
+                                </div>
+                                <a href="${item.link}" target="_blank" class="bg-amber-500 text-black font-bold py-2 px-6 rounded-lg text-xs uppercase tracking-widest hover:bg-amber-400 transition transform hover:scale-105 active:scale-95 block">လဲလှယ်ရန်</a>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                title.innerText = "POINTS RULES";
+                subTitle.innerText = "How to earn points";
+                searchBox.style.display = 'none';
+                document.getElementById('btn-rules').className = "flex flex-col items-center text-amber-400";
+                
+                const rules = [
+                    { title: "Buy 1 Item ( ဘာမဆို တစ်မျိုးတည်းဝယ်ရင် )", points: "Get +20 Points" },
+                    { title: "Buy 1 Item & More ( ဘာမဆို တစ်မျိုးထပ်ပို ဝယ်ရင် )", points: "Get +50 Points" }
+                ];
+                
+                rules.forEach(rule => {
+                    container.innerHTML += `
+                        <div class="modern-card p-6 flex flex-col gap-2">
+                            <h3 class="text-white font-bold text-lg uppercase tracking-wider">${rule.title}</h3>
+                            <div class="text-amber-400 font-bold text-2xl tracking-widest">${rule.points}</div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        renderPage('leaderboard');
+    </script>
+</body>
+</html>
