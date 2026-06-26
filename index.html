@@ -17,43 +17,33 @@
         }
         .modern-card:hover { border-color: rgba(251, 191, 36, 0.6); box-shadow: 0 0 20px rgba(251, 191, 36, 0.1); }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="w-full h-screen">
 
-    <!-- Main Container -->
-    <div class="w-full h-screen flex flex-col bg-[#050a14]">
+    <div class="w-full h-screen flex flex-col overflow-hidden">
         
         <!-- Header -->
-        <div id="header-area" class="deep-blue-bg p-8 pb-10 rounded-b-[2.5rem] flex-shrink-0 shadow-lg shadow-yellow-500/10 border-b border-yellow-500/20">
-            <h1 id="page-title" class="text-3xl font-bold text-amber-400 mb-2 uppercase tracking-widest">THE ONE COIN STORE</h1>
-            <p id="sub-title" class="text-yellow-100/60 text-sm mb-6 uppercase tracking-wider">Exchange to Coin</p>
+        <div id="header-area" class="deep-blue-bg p-6 pb-4 flex-shrink-0 border-b border-yellow-500/20">
+            <h1 id="page-title" class="text-2xl font-bold text-amber-400 uppercase tracking-widest">THE ONE COIN STORE</h1>
             
-            <div id="search-box" class="relative w-full">
+            <!-- Navigation Tabs (Header အောက်ရောက်သွားတဲ့ Tab တွေ) -->
+            <div class="flex gap-2 mt-4 mb-2">
+                <button onclick="renderPage('leaderboard')" id="btn-leaderboard" class="flex-1 py-2 bg-yellow-500/20 text-amber-400 rounded-lg text-xs font-bold uppercase tracking-widest transition border border-yellow-500/50">STORE</button>
+                <button onclick="renderPage('wallet')" id="btn-wallet" class="flex-1 py-2 bg-white/5 text-gray-400 rounded-lg text-xs font-bold uppercase tracking-widest transition hover:bg-white/10">WALLET</button>
+                <button onclick="renderPage('rules')" id="btn-rules" class="flex-1 py-2 bg-white/5 text-gray-400 rounded-lg text-xs font-bold uppercase tracking-widest transition hover:bg-white/10">RULES</button>
+            </div>
+
+            <div id="search-box" class="relative w-full mt-2">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-yellow-500/50"></i>
                 <input type="text" id="search-bar" placeholder="SEARCH PLAYER..." 
-                       class="w-full bg-white/5 text-white rounded-xl py-3 pl-12 pr-4 placeholder-yellow-500/30 outline-none border border-yellow-500/20 focus:border-yellow-400 transition-all uppercase tracking-widest">
+                       class="w-full bg-white/5 text-white rounded-xl py-3 pl-12 pr-4 placeholder-yellow-500/30 outline-none border border-yellow-500/20 focus:border-yellow-400 transition-all uppercase tracking-widest text-sm">
             </div>
         </div>
 
-        <!-- Dynamic Content (Scrolling area) -->
-        <div id="content-area" class="p-6 space-y-4 overflow-y-auto flex-1 scrollbar-hide pb-6">
-        </div>
-
-        <!-- Navigation Footer (Sticky) -->
-        <div class="bg-[#050a14] border-t border-yellow-500/10 p-4 flex justify-around items-center flex-shrink-0">
-            <button onclick="renderPage('leaderboard')" class="flex flex-col items-center text-amber-400 hover:text-amber-300 transition" id="btn-leaderboard">
-                <i class="fa-solid fa-trophy text-xl"></i>
-                <span class="text-[10px] mt-1 font-bold uppercase tracking-widest">STORE</span>
-            </button>
-            <button onclick="renderPage('wallet')" class="flex flex-col items-center text-gray-500 hover:text-amber-400 transition" id="btn-wallet">
-                <i class="fa-solid fa-wallet text-xl"></i>
-                <span class="text-[10px] mt-1 font-bold uppercase tracking-widest">WALLET</span>
-            </button>
-            <button onclick="renderPage('rules')" class="flex flex-col items-center text-gray-500 hover:text-amber-400 transition" id="btn-rules">
-                <i class="fa-solid fa-circle-info text-xl"></i>
-                <span class="text-[10px] mt-1 font-bold uppercase tracking-widest">RULES</span>
-            </button>
+        <!-- Dynamic Content Area -->
+        <div id="content-area" class="p-6 space-y-4 overflow-y-auto flex-1 scrollbar-hide">
         </div>
     </div>
 
@@ -80,12 +70,17 @@
             { pts: "1600 Points", coin: "1040 COINS", link: "https://t.me/Profit_Zio" }
         ];
 
-        // Search functionality
-        document.getElementById('search-bar').addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const filteredPlayers = players.filter(p => p.name.toLowerCase().includes(searchTerm));
-            renderLeaderboard(filteredPlayers);
-        });
+        function setActiveButton(type) {
+            const btns = ['leaderboard', 'wallet', 'rules'];
+            btns.forEach(id => {
+                const btn = document.getElementById(`btn-${id}`);
+                if (id === type) {
+                    btn.className = "flex-1 py-2 bg-yellow-500/20 text-amber-400 rounded-lg text-xs font-bold uppercase tracking-widest transition border border-yellow-500/50";
+                } else {
+                    btn.className = "flex-1 py-2 bg-white/5 text-gray-400 rounded-lg text-xs font-bold uppercase tracking-widest transition hover:bg-white/10";
+                }
+            });
+        }
 
         function renderLeaderboard(playerList) {
             const container = document.getElementById('content-area');
@@ -94,10 +89,10 @@
                 container.innerHTML += `
                     <div class="flex items-center justify-between bg-[#0f172a] p-4 rounded-xl border border-yellow-500/10">
                         <div class="flex items-center gap-4">
-                            <img src="${p.img}" class="w-12 h-12 rounded-lg bg-yellow-500/10 p-1">
-                            <h3 class="text-white font-semibold text-lg uppercase tracking-wider">${p.name}</h3>
+                            <img src="${p.img}" class="w-10 h-10 rounded-lg bg-yellow-500/10 p-1">
+                            <h3 class="text-white font-semibold text-md uppercase tracking-wider">${p.name}</h3>
                         </div>
-                        <span class="text-amber-400 font-bold text-xl">${p.points}</span>
+                        <span class="text-amber-400 font-bold text-lg">${p.points}</span>
                     </div>
                 `;
             });
@@ -106,71 +101,41 @@
         function renderPage(type) {
             const container = document.getElementById('content-area');
             const title = document.getElementById('page-title');
-            const subTitle = document.getElementById('sub-title');
             const searchBox = document.getElementById('search-box');
             
             container.innerHTML = "";
-            document.getElementById('search-bar').value = ""; 
-            
-            // Reset button colors
-            document.getElementById('btn-leaderboard').className = "flex flex-col items-center text-gray-500 hover:text-amber-400";
-            document.getElementById('btn-wallet').className = "flex flex-col items-center text-gray-500 hover:text-amber-400";
-            document.getElementById('btn-rules').className = "flex flex-col items-center text-gray-500 hover:text-amber-400";
+            searchBox.style.display = (type === 'leaderboard') ? 'block' : 'none';
+            setActiveButton(type);
             
             if (type === 'leaderboard') {
                 title.innerText = "THE ONE COIN STORE";
-                subTitle.innerText = "Exchange to Coin";
-                searchBox.style.display = 'block';
-                document.getElementById('btn-leaderboard').className = "flex flex-col items-center text-amber-400";
                 renderLeaderboard(players);
             } else if (type === 'wallet') {
                 title.innerText = "WALLET";
-                subTitle.innerText = "Exchange to Coin";
-                searchBox.style.display = 'none';
-                document.getElementById('btn-wallet').className = "flex flex-col items-center text-amber-400";
-                
                 walletItems.forEach(item => {
                     container.innerHTML += `
-                        <div class="modern-card p-6 flex flex-col gap-4">
+                        <div class="modern-card p-5 flex flex-col gap-4">
                             <div class="flex justify-between items-center">
-                                <div class="flex flex-col">
-                                    <span class="text-amber-400/60 text-xs font-bold uppercase tracking-widest">Points</span>
-                                    <span class="text-white font-bold text-2xl tracking-widest">${item.pts}</span>
-                                </div>
-                                <div class="bg-yellow-500/10 px-3 py-1 rounded-full border border-yellow-500/20 text-yellow-500 text-xs font-bold">EXCHANGE</div>
+                                <span class="text-white font-bold text-xl tracking-widest">${item.pts}</span>
+                                <span class="text-yellow-500 text-[10px] font-bold border border-yellow-500/30 px-2 py-1 rounded">EXCHANGE</span>
                             </div>
-                            <div class="h-[1px] bg-white/5"></div>
-                            <div class="flex justify-between items-center">
-                                <div class="text-amber-400 font-bold text-xl tracking-widest flex items-center gap-2">
-                                    <i class="fa-solid fa-coins text-lg"></i> ${item.coin}
-                                </div>
-                                <a href="${item.link}" target="_blank" class="bg-amber-500 text-black font-bold py-2 px-6 rounded-lg text-xs uppercase tracking-widest hover:bg-amber-400 transition transform hover:scale-105 active:scale-95 block">လဲလှယ်ရန်</a>
+                            <div class="flex justify-between items-center border-t border-white/5 pt-4">
+                                <span class="text-amber-400 font-bold text-lg"><i class="fa-solid fa-coins"></i> ${item.coin}</span>
+                                <a href="${item.link}" target="_blank" class="bg-amber-500 text-black font-bold py-2 px-5 rounded-lg text-[10px] uppercase hover:bg-amber-400 transition">Action</a>
                             </div>
                         </div>
                     `;
                 });
             } else {
-                title.innerText = "POINTS RULES";
-                subTitle.innerText = "How to earn points";
-                searchBox.style.display = 'none';
-                document.getElementById('btn-rules').className = "flex flex-col items-center text-amber-400";
-                
-                const rules = [
-                    { title: "Buy 1 Item ( တစ်မျိုးတည်းဝယ်ရင် )", points: "Get +20 Points" },
-                    { title: "Buy 1 Item & More ( တစ်မျိုးထပ်ပို ဝယ်ရင် )", points: "Get +50 Points" }
-                ];
-                
-                rules.forEach(rule => {
-                    container.innerHTML += `
-                        <div class="modern-card p-6 flex flex-col gap-2">
-                            <h3 class="text-white font-bold text-lg uppercase tracking-wider">${rule.title}</h3>
-                            <div class="text-amber-400 font-bold text-2xl tracking-widest">${rule.points}</div>
-                        </div>
-                    `;
-                });
+                title.innerText = "RULES";
+                container.innerHTML = `
+                    <div class="modern-card p-6 space-y-4">
+                        <div class="border-b border-white/5 pb-4"><h3 class="text-white font-bold uppercase">Buy 1 Item</h3><p class="text-amber-400 font-bold text-xl">+20 Points</p></div>
+                        <div><h3 class="text-white font-bold uppercase">Buy 1 Item & More</h3><p class="text-amber-400 font-bold text-xl">+50 Points</p></div>
+                    </div>
+                `;
             }
         }
-
         renderPage('leaderboard');
     </script>
 </body>
