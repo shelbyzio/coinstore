@@ -28,7 +28,6 @@
         <div id="header-area" class="deep-blue-bg p-6 pb-4 flex-shrink-0 border-b border-yellow-500/20">
             <h1 id="page-title" class="text-2xl font-bold text-amber-400 uppercase tracking-widest">THE ONE COIN STORE</h1>
             
-            <!-- Navigation Tabs (Header အောက်ရောက်သွားတဲ့ Tab တွေ) -->
             <div class="flex gap-2 mt-4 mb-2">
                 <button onclick="renderPage('leaderboard')" id="btn-leaderboard" class="flex-1 py-2 bg-yellow-500/20 text-amber-400 rounded-lg text-xs font-bold uppercase tracking-widest transition border border-yellow-500/50">STORE</button>
                 <button onclick="renderPage('wallet')" id="btn-wallet" class="flex-1 py-2 bg-white/5 text-gray-400 rounded-lg text-xs font-bold uppercase tracking-widest transition hover:bg-white/10">WALLET</button>
@@ -42,7 +41,6 @@
             </div>
         </div>
 
-        <!-- Dynamic Content Area -->
         <div id="content-area" class="p-6 space-y-4 overflow-y-auto flex-1 scrollbar-hide">
         </div>
     </div>
@@ -69,6 +67,12 @@
             { pts: "1250 Points", coin: "750 COINS", link: "https://t.me/Profit_Zio" },
             { pts: "1600 Points", coin: "1040 COINS", link: "https://t.me/Profit_Zio" }
         ];
+
+        document.getElementById('search-bar').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredPlayers = players.filter(p => p.name.toLowerCase().includes(searchTerm));
+            renderLeaderboard(filteredPlayers);
+        });
 
         function setActiveButton(type) {
             const btns = ['leaderboard', 'wallet', 'rules'];
@@ -111,7 +115,7 @@
                 title.innerText = "THE ONE COIN STORE";
                 renderLeaderboard(players);
             } else if (type === 'wallet') {
-                title.innerText = "WALLET";
+                title.innerText = "EXCHANGE";
                 walletItems.forEach(item => {
                     container.innerHTML += `
                         <div class="modern-card p-5 flex flex-col gap-4">
@@ -121,7 +125,7 @@
                             </div>
                             <div class="flex justify-between items-center border-t border-white/5 pt-4">
                                 <span class="text-amber-400 font-bold text-lg"><i class="fa-solid fa-coins"></i> ${item.coin}</span>
-                                <a href="${item.link}" target="_blank" class="bg-amber-500 text-black font-bold py-2 px-5 rounded-lg text-[10px] uppercase hover:bg-amber-400 transition">Action</a>
+                                <a href="${item.link}" target="_blank" class="bg-amber-500 text-black font-bold py-2 px-5 rounded-lg text-[10px] uppercase hover:bg-amber-400 transition">လဲလှယ်ရန်</a>
                             </div>
                         </div>
                     `;
