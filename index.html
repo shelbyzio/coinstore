@@ -29,8 +29,8 @@
             <h1 id="page-title" class="text-2xl font-bold text-amber-400 uppercase tracking-widest">THE ONE COIN STORE</h1>
             
             <div class="flex gap-2 mt-4 mb-2">
-                <button onclick="renderPage('leaderboard')" id="btn-leaderboard" class="flex-1 py-2 bg-yellow-500/20 text-amber-400 rounded-lg text-xs font-bold uppercase tracking-widest transition border border-yellow-500/50">STORE</button>
-                <button onclick="renderPage('wallet')" id="btn-wallet" class="flex-1 py-2 bg-white/5 text-gray-400 rounded-lg text-xs font-bold uppercase tracking-widest transition hover:bg-white/10">WALLET</button>
+                <button onclick="renderPage('leaderboard')" id="btn-leaderboard" class="flex-1 py-2 bg-yellow-500/20 text-amber-400 rounded-lg text-xs font-bold uppercase tracking-widest transition border border-yellow-500/50">My Wallet</button>
+                <button onclick="renderPage('wallet')" id="btn-wallet" class="flex-1 py-2 bg-white/5 text-gray-400 rounded-lg text-xs font-bold uppercase tracking-widest transition hover:bg-white/10">EXCHANGE</button>
                 <button onclick="renderPage('rules')" id="btn-rules" class="flex-1 py-2 bg-white/5 text-gray-400 rounded-lg text-xs font-bold uppercase tracking-widest transition hover:bg-white/10">RULES</button>
             </div>
 
@@ -47,24 +47,23 @@
 
     <script>
         const players = [
-            { name: "Owen", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Kyaw" },
-            { name: "Min Nyi", points: "70 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Aung" },
-            { name: "Kaung Kaung", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mg" },
-            { name: "Arkar", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
-            { name: "Mon Naung", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hla" },
-            { name: "PSTW", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
-            { name: "Kevin", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
-            { name: "Min Xtet Txurâ", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
-            { name: "Μæï Măī", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
-            { name: "Cry", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
-            { name: "❈ 𝐀𝐬𝐡𝐞𝐫 𝐎𝐟𝐟𝐢𝐜𝐢𝐚𝐥 ☾", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
-            { name: "San Tun Aung", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
-            { name: "La Minn 33", points: "40 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mg" },
-            { name: "Yatt Kha", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hla" },
-            { name: "Sai Mon Aon", points: "50 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
-            { name: "Sho", points: "20 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
-            { name: "O", points: "50 PTS", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mg" },
-            
+            { name: "Owen", points: 20, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Kyaw" },
+            { name: "Min Nyi", points: 70, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Aung" },
+            { name: "Kaung Kaung", points: 20, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mg" },
+            { name: "Arkar", points: 20, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "Mon Naung", points: 20, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hla" },
+            { name: "PSTW", points: 20, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "Kevin", points: 20, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "Min Xtet Txurâ", points: 20, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "Μæï Măī", points: 20, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "Cry", points: 20, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "❈ 𝐀𝐬𝐡𝐞𝐫 𝐎𝐟𝐟𝐢𝐜𝐢𝐚𝐥 ☾", points: 20, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "San Tun Aung", points: 20, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "La Minn 33", points: 40, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mg" },
+            { name: "Yatt Kha", points: 20, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hla" },
+            { name: "Sai Mon Aon", points: 50, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "Sho", points: 20, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Su" },
+            { name: "O", points: 50, img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mg" },
         ];
 
         const walletItems = [
@@ -94,16 +93,19 @@
         }
 
         function renderLeaderboard(playerList) {
+            // Point အများဆုံးသူကို အပေါ်ရောက်အောင် စီလိုက်ခြင်း
+            const sortedPlayers = [...playerList].sort((a, b) => b.points - a.points);
+            
             const container = document.getElementById('content-area');
             container.innerHTML = "";
-            playerList.forEach(p => {
+            sortedPlayers.forEach(p => {
                 container.innerHTML += `
                     <div class="flex items-center justify-between bg-[#0f172a] p-4 rounded-xl border border-yellow-500/10">
                         <div class="flex items-center gap-4">
                             <img src="${p.img}" class="w-10 h-10 rounded-lg bg-yellow-500/10 p-1">
                             <h3 class="text-white font-semibold text-md uppercase tracking-wider">${p.name}</h3>
                         </div>
-                        <span class="text-amber-400 font-bold text-lg">${p.points}</span>
+                        <span class="text-amber-400 font-bold text-lg">${p.points} PTS</span>
                     </div>
                 `;
             });
